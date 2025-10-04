@@ -210,3 +210,32 @@ git push
 ```
 
 この方法であればマウントが使われて、トークン変更の度にDevContainerの再構築が不要になるため、実用的である。
+
+## GitHub CLIのクレデンシャルをマウントする
+
+[.devcontainer-gh_credential_by_mount/devcontainer.json](.devcontainer-gh_credential_by_mount/devcontainer.json)
+
+HTTPS経由にする
+
+```bash
+git remote set-url origin https://github.com/74th/devcontainer-book-2nd-sample-github-auth.git
+```
+
+```bash
+devcontainer up --config .devcontainer-gh_credential_by_mount/devcontainer.json --workspace-folder .
+```
+
+ghコマンドをヘルパーに使う
+
+```bash
+devcontainer exec --config .devcontainer-gh_credential_by_mount/devcontainer.json --workspace-folder . bash
+
+gh auth setup-git
+
+git config --global user.name "Atsushi Morimoto (74th)"
+git config --global user.email "74th.tech@gmail.com"
+git commit -m 'test' --allow-empty
+git push
+```
+
+これが一番楽そうだ。

@@ -1,0 +1,10 @@
+{
+  "name": "Debian",
+  "dockerFile": "./Dockerfile",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "mounts": [
+    "type=bind,source=${localEnv:HOME}/.config/gh,target=/home/vscode/.config/gh"
+  ]
+}
