@@ -48,11 +48,12 @@ eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
 ```
 
+```bash
+devcontainer up --config .devcontainer/devcontainer-ssh_agent.json --workspace-folder .
+```
 
 ```bash
-devcontainer exec --config .devcontainer/devcontainer-gh.json --workspace-folder . bash
-
-gh auth login
+devcontainer exec --config .devcontainer/devcontainer-ssh_agent.json --workspace-folder . bash
 
 git config --global user.name "Atsushi Morimoto (74th)"
 git config --global user.email "74th.tech@gmail.com"
@@ -60,4 +61,38 @@ git commit -m 'test' --allow-empty
 git push
 ```
 
-## GitHub Tokenを渡す
+## GitHub Tokenを環境変数で渡す
+
+[.devcontainer/devcontainer-gh_token_with_env.json](.devcontainer/devcontainer-ssh_agent.json)
+
+HTTPS経由にする
+
+```bash
+git remote set-url origin https://github.com/74th/devcontainer-book-2nd-sample-github-auth.git
+```
+
+```bash
+export GH_TOKEN=$(gh auth token)
+```
+
+```bash
+devcontainer up --config .devcontainer/devcontainer-gh_token_with_env.json --workspace-folder .
+```
+
+```bash
+devcontainer exec --config .devcontainer/devcontainer-gh_token_with_env.json --workspace-folder . bash
+
+# ghコマンドをヘルパーに使う
+gh auth setup-git
+
+git config --global user.name "Atsushi Morimoto (74th)"
+git config --global user.email "74th.tech@gmail.com"
+git commit -m 'test' --allow-empty
+git push
+```
+
+トークン変更の度に環境変数の変更が必要になり、DevContainerの再構築が必要になるため、あまり実用的ではない。
+
+## GitHub Tokenをシークレットで渡す
+
+[.devcontainer/devcontainer-gh_token_with_secret.json](.devcontainer/devcontainer-ssh_agent.json)
