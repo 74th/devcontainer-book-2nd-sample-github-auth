@@ -1,0 +1,5 @@
+{
+    "yaml.schemas": {
+        "https://raw.githubusercontent.com/compose-spec/compose-go/master/schema/compose-spec.json": "file:///home/nnyn/ghq/github.com/74th/devcontainer-book-2nd-sample-github-auth/.devcontainer/gh_token_with_secret.compose.yaml"
+    }
+}

@@ -2,7 +2,7 @@ DevContainer内にGitHub認証を連携する方法
 
 ## GitHub CLIのインストール
 
-[.devcontainer/devcontainer-gh.json](.devcontainer/devcontainer-gh.json)
+[.devcontainer-gh/devcontainer.json](.devcontainer-gh/devcontainer.json)
 
 - featureでGitHub CLIをインストールする
 
@@ -13,11 +13,11 @@ git remote set-url origin https://github.com/74th/devcontainer-book-2nd-sample-g
 ```
 
 ```bash
-devcontainer up --config .devcontainer/devcontainer-gh.json --workspace-folder .
+devcontainer up --config .devcontainer-gh/devcontainer.json --workspace-folder .
 ```
 
 ```bash
-devcontainer exec --config .devcontainer/devcontainer-gh.json --workspace-folder . bash
+devcontainer exec --config .devcontainer-gh/devcontainer.json --workspace-folder . bash
 
 gh auth login
 
@@ -29,7 +29,7 @@ git push
 
 ## SSHエージェントのフォワーディング
 
-[.devcontainer/devcontainer-ssh_agent.json](.devcontainer/devcontainer-ssh_agent.json)
+[.devcontainer-ssh_agent/devcontainer.json](.devcontainer-ssh_agent/devcontainer.json)
 
 - SSH_AUTH_SOCKをマウントする
 - 環境変数SSH_AUTH_SOCKに、マウントしたパスを設定する
@@ -49,11 +49,11 @@ ssh-add ~/.ssh/id_ed25519
 ```
 
 ```bash
-devcontainer up --config .devcontainer/devcontainer-ssh_agent.json --workspace-folder .
+devcontainer up --config .devcontainer-ssh_agent/devcontainer.json --workspace-folder .
 ```
 
 ```bash
-devcontainer exec --config .devcontainer/devcontainer-ssh_agent.json --workspace-folder . bash
+devcontainer exec --config .devcontainer-ssh_agent/devcontainer.json --workspace-folder . bash
 
 git config --global user.name "Atsushi Morimoto (74th)"
 git config --global user.email "74th.tech@gmail.com"
@@ -63,7 +63,7 @@ git push
 
 ## GitHub Tokenを環境変数で渡す
 
-[.devcontainer/devcontainer-gh_token_with_env.json](.devcontainer/devcontainer-ssh_agent.json)
+[.devcontainer-gh_token_with_env/devcontainer.json](.devcontainer-gh_token_with_env/devcontainer.json)
 
 HTTPS経由にする
 
@@ -78,14 +78,29 @@ export GH_TOKEN=$(gh auth token)
 ```
 
 ```bash
-devcontainer up --config .devcontainer/devcontainer-gh_token_with_env.json --workspace-folder .
+devcontainer up --config .devcontainer-gh_token_with_env/devcontainer.json --workspace-folder .
 ```
 
-```bash
-devcontainer exec --config .devcontainer/devcontainer-gh_token_with_env.json --workspace-folder . bash
+ghコマンドをヘルパーに使う
 
-# ghコマンドをヘルパーに使う
+```bash
+devcontainer exec --config .devcontainer-gh_token_with_env/devcontainer.json --workspace-folder . bash
+
 gh auth setup-git
+
+git config --global user.name "Atsushi Morimoto (74th)"
+git config --global user.email "74th.tech@gmail.com"
+git commit -m 'test' --allow-empty
+git push
+```
+
+ghコマンドなしでヘルパーを実現する場合
+
+```bash
+devcontainer exec --config .devcontainer-gh_token_with_env/devcontainer.json --workspace-folder . bash
+
+git config --global credential.helper '!f() { echo username=x; echo password=${GH_TOKEN}; }; f'
+git config --global credential.useHttpPath true
 
 git config --global user.name "Atsushi Morimoto (74th)"
 git config --global user.email "74th.tech@gmail.com"
@@ -97,7 +112,7 @@ git push
 
 ## GitHub Tokenをシークレットで渡す
 
-[.devcontainer/devcontainer-gh_token_with_secret.json](.devcontainer/devcontainer-ssh_agent.json)
+[.devcontainer-gh_token_with_secret/devcontainer.json](.devcontainer-gh_token_with_secret/devcontainer.json)
 
 HTTPS経由にする
 
@@ -112,13 +127,13 @@ export GH_TOKEN=$(gh auth token)
 ```
 
 ```bash
-devcontainer up --config .devcontainer/devcontainer-gh_token_with_env.json --workspace-folder .
+devcontainer up --config .devcontainer-gh_token_with_secret/devcontainer.json --workspace-folder .
 ```
 
 ghコマンドをヘルパーに使う場合
 
 ```bash
-devcontainer exec --config .devcontainer/devcontainer-gh_token_with_env.json --workspace-folder . bash
+devcontainer exec --config .devcontainer-gh_token_with_secret/devcontainer.json --workspace-folder . bash
 
 export GH_TOKEN=$(cat /run/secrets/gh_token 2>/dev/null)
 gh auth setup-git
@@ -132,7 +147,7 @@ git push
 ghコマンドなしでヘルパーを実現する場合
 
 ```bash
-devcontainer exec --config .devcontainer/devcontainer-gh_token_with_env.json --workspace-folder . bash
+devcontainer exec --config .devcontainer-gh_token_with_secret/devcontainer.json --workspace-folder . bash
 
 git config --global credential.helper '!f() { echo username=x; echo password=$(cat /run/secrets/gh_token 2>/dev/null); }; f'
 git config --global credential.useHttpPath true

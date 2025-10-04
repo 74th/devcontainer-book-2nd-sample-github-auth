@@ -1,6 +1,6 @@
 {
   "name": "Debian",
-  "dockerComposeFile": "./gh_token_with_secret.compose.yaml",
+  "dockerComposeFile": "./compose.yaml",
   "service": "dev",
   "workspaceFolder": "/workspace",
   "features": {
