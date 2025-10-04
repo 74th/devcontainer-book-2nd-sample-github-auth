@@ -157,3 +157,56 @@ git config --global user.email "74th.tech@gmail.com"
 git commit -m 'test' --allow-empty
 git push
 ```
+
+docker compose up する度に、シークレットの内容を最新化してくれるのかと思ったら、起動時にしか読まれないようで、トークン変更の度にDevContainerの再構築が必要になるため、あまり実用的ではない。
+環境変数経由で渡したせいなのか。
+
+## GitHub Tokenをシークレットのファイルマウントで渡す
+
+[.devcontainer-gh_token_with_secret/devcontainer.json](.devcontainer-gh_token_with_secret/devcontainer.json)
+
+HTTPS経由にする
+
+```bash
+git remote set-url origin https://github.com/74th/devcontainer-book-2nd-sample-github-auth.git
+```
+
+トークンの出力
+
+```bash
+gh auth token > .secrets/gh_token
+```
+
+```bash
+devcontainer up --config .devcontainer-gh_token_with_secret_mount/devcontainer.json --workspace-folder .
+```
+
+ghコマンドをヘルパーに使う場合
+
+```bash
+devcontainer exec --config .devcontainer-gh_token_with_secret_mount/devcontainer.json --workspace-folder . bash
+
+export GH_TOKEN=$(cat /run/secrets/gh_token 2>/dev/null)
+gh auth setup-git
+
+git config --global user.name "Atsushi Morimoto (74th)"
+git config --global user.email "74th.tech@gmail.com"
+git commit -m 'test' --allow-empty
+git push
+```
+
+ghコマンドなしでヘルパーを実現する場合
+
+```bash
+devcontainer exec --config .devcontainer-gh_token_with_secret/devcontainer.json --workspace-folder . bash
+
+git config --global credential.helper '!f() { echo username=x; echo password=$(cat /run/secrets/gh_token 2>/dev/null); }; f'
+git config --global credential.useHttpPath true
+
+git config --global user.name "Atsushi Morimoto (74th)"
+git config --global user.email "74th.tech@gmail.com"
+git commit -m 'test' --allow-empty
+git push
+```
+
+この方法であればマウントが使われて、トークン変更の度にDevContainerの再構築が不要になるため、実用的である。
