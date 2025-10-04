@@ -1,6 +1,6 @@
 {
   "name": "Debian",
-  "dockerFile": "./Dockerfile",
+  "image": "mcr.microsoft.com/devcontainers/base:bullseye",
   "features": {
     "ghcr.io/devcontainers/features/github-cli:1": {}
   },
