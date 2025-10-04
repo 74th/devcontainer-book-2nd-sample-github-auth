@@ -1,0 +1,11 @@
+{
+  "name": "Debian",
+  "image": "mcr.microsoft.com/devcontainers/base:bullseye",
+  "features": {},
+  "mounts": [
+    "source=${localEnv:SSH_AUTH_SOCK},target=/ssh-agent,type=bind"
+  ],
+  "remoteEnv": {
+    "SSH_AUTH_SOCK": "/ssh-agent"
+  }
+}
