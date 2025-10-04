@@ -71,6 +71,8 @@ HTTPS経由にする
 git remote set-url origin https://github.com/74th/devcontainer-book-2nd-sample-github-auth.git
 ```
 
+トークンの出力
+
 ```bash
 export GH_TOKEN=$(gh auth token)
 ```
@@ -96,3 +98,47 @@ git push
 ## GitHub Tokenをシークレットで渡す
 
 [.devcontainer/devcontainer-gh_token_with_secret.json](.devcontainer/devcontainer-ssh_agent.json)
+
+HTTPS経由にする
+
+```bash
+git remote set-url origin https://github.com/74th/devcontainer-book-2nd-sample-github-auth.git
+```
+
+トークンの出力
+
+```bash
+export GH_TOKEN=$(gh auth token)
+```
+
+```bash
+devcontainer up --config .devcontainer/devcontainer-gh_token_with_env.json --workspace-folder .
+```
+
+ghコマンドをヘルパーに使う場合
+
+```bash
+devcontainer exec --config .devcontainer/devcontainer-gh_token_with_env.json --workspace-folder . bash
+
+export GH_TOKEN=$(cat /run/secrets/gh_token 2>/dev/null)
+gh auth setup-git
+
+git config --global user.name "Atsushi Morimoto (74th)"
+git config --global user.email "74th.tech@gmail.com"
+git commit -m 'test' --allow-empty
+git push
+```
+
+ghコマンドなしでヘルパーを実現する場合
+
+```bash
+devcontainer exec --config .devcontainer/devcontainer-gh_token_with_env.json --workspace-folder . bash
+
+git config --global credential.helper '!f() { echo username=x; echo password=$(cat /run/secrets/gh_token 2>/dev/null); }; f'
+git config --global credential.useHttpPath true
+
+git config --global user.name "Atsushi Morimoto (74th)"
+git config --global user.email "74th.tech@gmail.com"
+git commit -m 'test' --allow-empty
+git push
+```
