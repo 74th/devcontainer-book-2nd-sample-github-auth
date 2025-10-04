@@ -1,10 +1,11 @@
 {
   "name": "Debian",
-  "image": "mcr.microsoft.com/devcontainers/base:bullseye",
+  "dockerComposeFile": "./compose.yaml",
+  "service": "dev",
+  "workspaceFolder": "/workspace",
   "features": {
+    // GHコマンドを使う場合
     "ghcr.io/devcontainers/features/github-cli:1": {}
   },
-  "mounts": [
-    "source=${localEnv:HOME}/.config/gh,target=/home/vscode/.config/gh,consistency=cached"
-  ]
+  "remoteEnv": {}
 }

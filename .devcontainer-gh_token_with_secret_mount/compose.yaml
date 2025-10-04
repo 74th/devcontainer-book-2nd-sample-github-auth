@@ -1,0 +1,14 @@
+secrets:
+  gh_token:
+    file: ../.secrets/gh_token
+
+services:
+  dev:
+    image: mcr.microsoft.com/devcontainers/base:bullseye
+    command: sleep infinity
+    volumes:
+      - ..:/workspace:cached
+    secrets:
+      - source: gh_token
+        target: gh_token
+        mode: 0444
