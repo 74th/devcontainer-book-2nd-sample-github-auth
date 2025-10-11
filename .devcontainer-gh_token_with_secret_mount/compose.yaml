@@ -1,6 +1,6 @@
 secrets:
   gh_token:
-    file: ../.secrets/gh_token
+    file: ~/.secrets/gh_token
 
 services:
   dev:

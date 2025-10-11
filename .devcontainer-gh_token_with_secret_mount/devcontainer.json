@@ -7,5 +7,7 @@
     // GHコマンドを使う場合
     "ghcr.io/devcontainers/features/github-cli:1": {}
   },
+  "postCreateCommand": "./.devcontainer-gh_token_with_secret_mount/postCreateCommand_credential_helper.sh",
+  "initializeCommand": ".devcontainer-gh_token_with_secret_mount/initializeCommand.sh",
   "remoteEnv": {}
 }
