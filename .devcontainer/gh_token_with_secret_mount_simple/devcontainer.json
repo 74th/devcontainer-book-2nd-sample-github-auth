@@ -1,8 +1,8 @@
 {
   "name": "Debian",
   "image": "mcr.microsoft.com/devcontainers/base:bullseye",
-  "postCreateCommand": "./.devcontainer-gh_token_with_secret_mount/postCreateCommand_credential_helper.sh",
-  "initializeCommand": ".devcontainer-gh_token_with_secret_mount_simple/initializeCommand.sh",
+  "postCreateCommand": "./.devcontainer/gh_token_with_secret_mount/postCreateCommand_credential_helper.sh",
+  "initializeCommand": ".devcontainer/gh_token_with_secret_mount_simple/initializeCommand.sh",
   "mounts": [
     "source=${localEnv:HOME}/.secrets/gh_token,target=/run/secrets/gh_token,type=bind"
   ]
