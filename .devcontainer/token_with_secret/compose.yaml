@@ -7,7 +7,7 @@ services:
     image: mcr.microsoft.com/devcontainers/base:bullseye
     command: sleep infinity
     volumes:
-      - ..:/workspace:cached
+      - ../..:/workspace:cached
     secrets:
       - source: gh_token
         target: gh_token
