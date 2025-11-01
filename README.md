@@ -1,4 +1,4 @@
-# 同人誌『DevContainer実践ガイド』サンプルコード
+# 同人誌『DevContainer実践ガイド』サンプルコード - GitHubの認証情報の持ち込み方
 
 <img src="./material/ebook.png" alt="DevContainer実践ガイド表紙" width="600"/>
 
